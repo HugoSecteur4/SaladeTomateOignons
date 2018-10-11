@@ -27,18 +27,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
         setupToolbar();
-        TextView v = (TextView) findViewById(R.id.ingredient_courant);
-        v.setText(variable);
+        /*TextView v = (TextView) findViewById(R.id.ingredient_courant);
+        v.setText(variable);*/
         //this.ingredients = new Vector<>();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        TextView v = (TextView) findViewById(R.id.ingredient_courant);
-        v.setText(variable);
+        /*TextView v = (TextView) findViewById(R.id.ingredient_courant);
+        v.setText(variable);*/
         // put your code here...
 
+    }
+
+    public void goto_lets_cook(View view){
+       /* Intent intent = new Intent(this,LetsCookActivity.class);
+        startActivity(intent);*/
+    }
+
+    public void goto_liste_course(View view){
+       /* Intent intent = new Intent(this,ListeCourseActivity.class);
+        startActivity(intent);*/
+    }
+
+    public void goto_recettes(View view){
+        /*Intent intent = new Intent(this,RecetteActivity.class);
+        startActivity(intent);*/
+    }
+
+    public void goto_ingredients(View view){
+       /* Intent intent = new Intent(this,IngredientsActivity.class);
+        startActivity(intent);*/
+        launchActivity(SimpleScannerActivity.class);
     }
 
     public void setupToolbar() {
