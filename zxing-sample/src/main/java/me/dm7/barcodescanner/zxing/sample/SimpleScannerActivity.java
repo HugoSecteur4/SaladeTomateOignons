@@ -28,7 +28,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class SimpleScannerActivity extends BaseScannerActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
-    public static Ingredient ingredient;
+    //public static Ingredient ingredient;
 
     @Override
     public void onCreate(Bundle state) {
@@ -44,9 +44,9 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
         contentFrame.addView(mScannerView);
     }
 
-    public void setIngredient(Ingredient i) {
-        ingredient = i;
-    }
+    //public void setIngredient(Ingredient i) {
+    //    ingredient = i;
+    //}
 
     @Override
     public void onResume() {
@@ -99,12 +99,12 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
                 try {
                     JSONObject jsonObject = getJSONObjectFromURL(url);
                     Log.println(Log.ASSERT, "tag", ((JSONObject) jsonObject.get("product")).getString("product_name"));
-                    Intent intent = new Intent(SimpleScannerActivity.this, ListeIngredients.class);
+                    //Intent intent = new Intent(SimpleScannerActivity.this, ListeIngredients.class);
                     //Log.println(Log.ASSERT, "tadddg", ingredient.getNom());
-                    MainActivity.variable = "Traisor";
-                    setIngredient(new Ingredient(((JSONObject) jsonObject.get("product")).getString("product_name")));
-                    intent.putExtra("ingredients", ingredient.getNom());
-                    startActivity(intent);
+                    //MainActivity.variable = "Traisor";
+                    MainActivity.ingredients.add(new Ingredient(((JSONObject) jsonObject.get("product")).getString("product_name")));
+                    //intent.putExtra("ingredients", ingredient.getNom());
+                    //startActivity(intent);
                     //setIngredient(new Ingredient(((JSONObject) jsonObject.get("product")).getString("product_name")));
                     //ingredient = new Ingredient(((JSONObject) jsonObject.get("product")).getString("product_name"));
                     //ingredients.add(i);
