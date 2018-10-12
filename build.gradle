@@ -44,7 +44,7 @@ subprojects {
                 }
 
                 defaultConfig {
-                    minSdkVersion 11
+                    minSdkVersion 14
                     targetSdkVersion versions.target_sdk
                     versionCode 198
                     versionName "1.9.8"

@@ -25,7 +25,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
     public void bind(Ingredient myObject){
         textViewView.setText(myObject.getNom());
-        Picasso.with(imageView.getContext()).load(myObject.getImage()).centerCrop().fit().into(imageView);
+        Picasso.get().load(myObject.getImage()).centerCrop().fit().into(imageView);
 
     }
 }

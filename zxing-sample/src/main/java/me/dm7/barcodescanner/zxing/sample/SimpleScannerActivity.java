@@ -1,13 +1,18 @@
 package me.dm7.barcodescanner.zxing.sample;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.zxing.Result;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,25 +94,60 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
 
 
     @Override
-    public void handleResult(Result rawResult) {
+    public void handleResult(final Result rawResult) {
 
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
                     Log.println(Log.ASSERT,"tag", "debut scan");
-                    String url = "https://fr.openfoodfacts.org/api/v0/produit/5050083458255.json";
+                    String url = "https://fr.openfoodfacts.org/api/v0/produit/" + rawResult.getText() + ".json";
+                    Log.println(Log.ASSERT, "tag", url);
+
                 try {
                     JSONObject jsonObject = getJSONObjectFromURL(url);
                     Log.println(Log.ASSERT, "tag", ((JSONObject) jsonObject.get("product")).getString("product_name"));
                     //Intent intent = new Intent(SimpleScannerActivity.this, ListeIngredients.class);
                     //Log.println(Log.ASSERT, "tadddg", ingredient.getNom());
                     //MainActivity.variable = "Traisor";
-                    MainActivity.ingredients.add(new Ingredient(((JSONObject) jsonObject.get("product")).getString("product_name")));
+                    final String ingredient_scan = ((JSONObject) jsonObject.get("product")).getString("product_name");
+                    final String urlPhoto = ((JSONObject) jsonObject.get("product")).getString("image_small_url");
+
+                    MainActivity.ingredients.add(new Ingredient(ingredient_scan, urlPhoto));
+
+
                     //intent.putExtra("ingredients", ingredient.getNom());
                     //startActivity(intent);
                     //setIngredient(new Ingredient(((JSONObject) jsonObject.get("product")).getString("product_name")));
                     //ingredient = new Ingredient(((JSONObject) jsonObject.get("product")).getString("product_name"));
                     //ingredients.add(i);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+
+                            Toast toast = new Toast(getApplicationContext());
+                            LinearLayout toastLayout = new LinearLayout(getBaseContext());
+                            toastLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+                            //ImageView view = new ImageView(getApplicationContext());
+                            ImageView imageView = new ImageView(getApplicationContext());
+                            Picasso.get().load(urlPhoto).resize(getWindowManager().getDefaultDisplay().getWidth()/4,getWindowManager().getDefaultDisplay().getHeight()/8).into(imageView);
+                            TextView text = new TextView(getApplicationContext());
+                            text.setText(ingredient_scan);
+                            text.setTextSize(30);
+                            text.setTextColor(Color.WHITE);
+                            toastLayout.addView(imageView);
+                            toastLayout.addView(text);
+                            //InputStream is = (InputStream) new URL("https://static.openfoodfacts.org/images/products/505/008/345/8255/front_fr.93.100.jpg").getContent();
+                            //Drawable d = Drawable.createFromStream(is, "src name");
+                            //Bitmap b = resize(BitmapFactory.decodeStream((InputStream)new URL("https://static.openfoodfacts.org/images/products/505/008/345/8255/front_fr.93.100.jpg").getContent()),30,30);
+                            // view.setImageBitmap(b);
+                            toast.setView(toastLayout);
+                            toast.show();
+                            //Toast.makeText(SimpleScannerActivity.this, ingredient_scan, Toast.LENGTH_SHORT).show();
+                            mScannerView.resumeCameraPreview(SimpleScannerActivity.this);
+
+
+                        }
+                    });
 
                 } catch (IOException e) {
                     e.printStackTrace();
