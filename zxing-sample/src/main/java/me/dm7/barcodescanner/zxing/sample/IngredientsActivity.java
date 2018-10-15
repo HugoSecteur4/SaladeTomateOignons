@@ -28,7 +28,6 @@ public class IngredientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
 
-
         recyclerView = (RecyclerView) findViewById(R.id.liste);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyAdapter(MainActivity.ingredients);
@@ -45,9 +44,9 @@ public class IngredientsActivity extends AppCompatActivity {
         launchActivity(SimpleScannerActivity.class);
     }
 
-    public void add_ingredient(View view){
-        MainActivity.ingredients.add(new Ingredient("DEUXIO","https://colruyt.collectandgo.lu/cogo/step/JPG/JPG/500x500/std.lang.all/43/30/asset-1144330.jpg"));
-        adapter.notifyDataSetChanged();
+    public void goto_manual_add(View view){
+        Intent intent = new Intent(this,ManualAddActivity.class);
+        startActivity(intent);
     }
 
 

@@ -41,8 +41,8 @@
         <activity
             android:name=".SimpleScannerActivity"
             android:label="@string/simple_scanner_activity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:parentActivityName=".IngredientsActivity"/>
+            android:parentActivityName=".IngredientsActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".SimpleScannerFragmentActivity"
             android:label="@string/simple_scanner_fragment_activity"
@@ -74,10 +74,13 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ListeCourseActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RecetteActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ManualAddActivity"
+            android:parentActivityName=".IngredientsActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>
