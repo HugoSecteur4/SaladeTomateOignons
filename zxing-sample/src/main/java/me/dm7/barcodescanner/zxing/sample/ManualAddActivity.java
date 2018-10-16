@@ -31,7 +31,7 @@ public class ManualAddActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.search_liste);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         search_ingredients = new Vector<>();
-        adapter = new MyAdapterManualAdd(this.search_ingredients);
+        adapter = new MyAdapterManualAdd(this.search_ingredients, this.getApplicationContext(), this.getBaseContext(),this.getWindowManager());
         recyclerView.setAdapter(adapter);
 
         SearchView view = (SearchView) findViewById(R.id.search_ingredient);

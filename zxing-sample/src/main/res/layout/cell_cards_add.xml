@@ -22,17 +22,19 @@
             android:id="@+id/image"
             android:layout_width="111dp"
             android:layout_height="146dp"
+            android:layout_marginLeft="5dp"
             android:scaleType="fitCenter"
             android:src="@drawable/logo" />
 
         <TextView
             android:id="@+id/text"
-            android:layout_width="112dp"
-            android:layout_height="wrap_content"
+            android:layout_width="171dp"
+            android:layout_height="85dp"
             android:layout_marginTop="30dp"
             android:background="?android:selectableItemBackground"
             android:fontFamily="sans-serif"
             android:padding="20dp"
+            android:paddingTop="60dp"
             android:textColor="#333"
             android:textSize="18sp"
             tools:text="Paris" />
@@ -41,8 +43,9 @@
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
             android:layout_weight="1"
-            android:text="+" />
+            android:text="Ajouter" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

@@ -129,7 +129,7 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
 
                             //ImageView view = new ImageView(getApplicationContext());
                             ImageView imageView = new ImageView(getApplicationContext());
-                            Picasso.get().load(urlPhoto).resize(getWindowManager().getDefaultDisplay().getWidth()/4,getWindowManager().getDefaultDisplay().getHeight()/8).into(imageView);
+                            Picasso.get().load(urlPhoto).into(imageView);
                             TextView text = new TextView(getApplicationContext());
                             text.setText(ingredient_scan);
                             text.setTextSize(30);

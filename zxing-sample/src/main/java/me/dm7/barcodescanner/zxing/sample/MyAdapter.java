@@ -29,7 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
         Ingredient myObject = list.get(position);
-        myViewHolder.bind(myObject);
+        myViewHolder.bind(myObject,this);
     }
 
     @Override

@@ -11,11 +11,11 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:drawableLeft="@drawable/barcode_scanner"
         android:onClick="goto_scanner"
-        android:text="Button"
+        android:text="Scan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -23,18 +23,18 @@
         android:id="@+id/liste"
         android:layout_width="395dp"
         android:layout_height="646dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginRight="128dp"
+        android:drawableLeft="@drawable/text"
         android:onClick="goto_manual_add"
-        android:text="Add"
+        android:text="Clavier"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button" />
 

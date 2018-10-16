@@ -3,6 +3,7 @@ package me.dm7.barcodescanner.zxing.sample;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
 
     private TextView textViewView;
     private ImageView imageView;
+    private ImageButton button;
 
     //itemView est la vue correspondante à 1 cellule
     public MyViewHolder(View itemView) {
@@ -21,11 +23,20 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
 
         textViewView = (TextView) itemView.findViewById(R.id.text);
         imageView = (ImageView) itemView.findViewById(R.id.image);
+        button = (ImageButton) itemView.findViewById(R.id.deleteButton);
     }
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
-    public void bind(Ingredient myObject){
+    public void bind(final Ingredient myObject, final MyAdapter adapter){
         textViewView.setText(myObject.getNom());
+        textViewView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         Picasso.get().load(myObject.getImage()).centerCrop().fit().into(imageView);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.ingredients.remove(myObject);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }

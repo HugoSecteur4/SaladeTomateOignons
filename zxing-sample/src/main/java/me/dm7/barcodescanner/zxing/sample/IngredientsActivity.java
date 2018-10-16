@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,8 @@ public class IngredientsActivity extends AppCompatActivity {
         Intent intent = new Intent(this,ManualAddActivity.class);
         startActivity(intent);
     }
+
+
 
 
     public void launchActivity(Class<?> clss) {
