@@ -35,6 +35,7 @@ public class ManualAddActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         SearchView view = (SearchView) findViewById(R.id.search_ingredient);
+        view.setIconified(false);
         SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
 
             Vector<Ingredient> temp = new Vector<>();

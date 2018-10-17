@@ -43,7 +43,7 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
         this.ingredients = (Vector<Ingredient>) intent.getSerializableExtra("ingredients");*/
         setContentView(R.layout.activity_simple_scanner);
         setupToolbar();
-
+        setTitle("Scannez vos articles");
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this);
         contentFrame.addView(mScannerView);
@@ -112,7 +112,16 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
                     final String ingredient_scan = ((JSONObject) jsonObject.get("product")).getString("product_name");
                     final String urlPhoto = ((JSONObject) jsonObject.get("product")).getString("image_small_url");
 
-                    MainActivity.ingredients.add(new Ingredient(ingredient_scan, urlPhoto));
+                    boolean inside = false;
+                    for(int i=0;!inside && i<MainActivity.ingredients.size();i++){
+                        if(MainActivity.ingredients.get(i).getNom().equals(ingredient_scan) ){
+                            inside=true;
+                        }
+                    }
+                    if(!inside){
+
+                        MainActivity.ingredients.add(new Ingredient(ingredient_scan, urlPhoto));
+                    }
 
 
                     //intent.putExtra("ingredients", ingredient.getNom());

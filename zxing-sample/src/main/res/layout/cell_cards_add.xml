@@ -29,7 +29,7 @@
         <TextView
             android:id="@+id/text"
             android:layout_width="171dp"
-            android:layout_height="85dp"
+            android:layout_height="113dp"
             android:layout_marginTop="30dp"
             android:background="?android:selectableItemBackground"
             android:fontFamily="sans-serif"
