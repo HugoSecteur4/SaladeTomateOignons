@@ -14,6 +14,8 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
     private TextView textViewView;
     private ImageView imageView;
     private ImageButton button;
+    private TextView quantityView;
+    private ImageButton addButton;
 
     //itemView est la vue correspondante à 1 cellule
     public MyViewHolder(View itemView) {
@@ -24,17 +26,26 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
         textViewView = (TextView) itemView.findViewById(R.id.text);
         imageView = (ImageView) itemView.findViewById(R.id.image);
         button = (ImageButton) itemView.findViewById(R.id.deleteButton);
+        quantityView = (TextView) itemView.findViewById(R.id.quantity);
+        addButton = (ImageButton) itemView.findViewById(R.id.addButton);
     }
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
     public void bind(final Ingredient myObject, final MyAdapter adapter){
         textViewView.setText(myObject.getNom());
-        textViewView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        Picasso.get().load(myObject.getImage()).centerCrop().fit().into(imageView);
+        quantityView.setText("x"+myObject.getQuantity());
+        Picasso.get().load(myObject.getImage()).fit().centerInside().into(imageView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity.ingredients.remove(myObject);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myObject.incrementQuantity();
                 adapter.notifyDataSetChanged();
             }
         });

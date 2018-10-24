@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="259dp"
+        android:layout_width="222dp"
         android:layout_height="51dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"

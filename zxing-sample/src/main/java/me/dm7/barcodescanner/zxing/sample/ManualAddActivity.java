@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class ManualAddActivity extends AppCompatActivity {
@@ -52,8 +51,7 @@ public class ManualAddActivity extends AppCompatActivity {
                               JSONArray products = jsonObject.getJSONArray("products");
                               for (int i = 0; i < products.length(); i++) {
                                   JSONObject product = (JSONObject) products.get(i);
-                                  temp.add(new Ingredient(product.getString("product_name"), product.getString("image_small_url")));
-
+                                  temp.add(new Ingredient(product.getLong("id"),product.getString("product_name"), product.getString("image_small_url")));
                               }
 
                           } catch (IOException e) {

@@ -3,6 +3,7 @@ package me.dm7.barcodescanner.zxing.sample;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -36,14 +37,24 @@ public class MyViewHolderManualAdd extends RecyclerView.ViewHolder{
     }
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
-    public void bind(Ingredient myObject){
+    public void bind(final Ingredient myObject){
         final Ingredient ingr = myObject;
         textViewView.setText(myObject.getNom());
-        Picasso.get().load(myObject.getImage()).centerCrop().fit().into(imageView);
+        Picasso.get().load(myObject.getImage()).fit().centerInside().into(imageView);
         buttonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.ingredients.add(new Ingredient(ingr.getNom(),ingr.getImage()));
+
+                boolean inside=false;
+                int i;
+                for(i=0; !inside && i<MainActivity.ingredients.size();i++){
+                    if(MainActivity.ingredients.get(i).getId()==myObject.getId())
+                        inside=true;
+                }
+                if(inside)
+                    MainActivity.ingredients.get(i-1).incrementQuantity();
+                else
+                    MainActivity.ingredients.add(myObject);
 
                 Toast toast = new Toast(cApp);
 

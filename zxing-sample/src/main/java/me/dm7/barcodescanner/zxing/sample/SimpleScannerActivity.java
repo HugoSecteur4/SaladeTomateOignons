@@ -1,10 +1,12 @@
 package me.dm7.barcodescanner.zxing.sample;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -111,16 +113,20 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
                     //MainActivity.variable = "Traisor";
                     final String ingredient_scan = ((JSONObject) jsonObject.get("product")).getString("product_name");
                     final String urlPhoto = ((JSONObject) jsonObject.get("product")).getString("image_small_url");
-
+                    final long id=Long.getLong(rawResult.getText());
+                    //Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    //vibrator.vibrate(250);
                     boolean inside = false;
-                    for(int i=0;!inside && i<MainActivity.ingredients.size();i++){
-                        if(MainActivity.ingredients.get(i).getNom().equals(ingredient_scan) ){
+                    int i;
+                    for(i=0;!inside && i<MainActivity.ingredients.size();i++){
+                        if(MainActivity.ingredients.get(i).getId()== id ){
                             inside=true;
                         }
                     }
                     if(!inside){
-
-                        MainActivity.ingredients.add(new Ingredient(ingredient_scan, urlPhoto));
+                        MainActivity.ingredients.add(new Ingredient(id,ingredient_scan, urlPhoto));
+                    }else{
+                        MainActivity.ingredients.get(i-1).incrementQuantity();
                     }
 
 
