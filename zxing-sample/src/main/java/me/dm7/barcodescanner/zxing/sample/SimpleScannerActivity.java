@@ -111,16 +111,18 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
                     //MainActivity.variable = "Traisor";
                     final String ingredient_scan = ((JSONObject) jsonObject.get("product")).getString("product_name");
                     final String urlPhoto = ((JSONObject) jsonObject.get("product")).getString("image_small_url");
-
+                    final long id=Long.getLong(rawResult.getText());
                     boolean inside = false;
-                    for(int i=0;!inside && i<MainActivity.ingredients.size();i++){
-                        if(MainActivity.ingredients.get(i).getNom().equals(ingredient_scan) ){
+                    int i;
+                    for(i=0;!inside && i<MainActivity.ingredients.size();i++){
+                        if(MainActivity.ingredients.get(i).getId()== id ){
                             inside=true;
                         }
                     }
                     if(!inside){
-
-                        MainActivity.ingredients.add(new Ingredient(ingredient_scan, urlPhoto));
+                        MainActivity.ingredients.add(new Ingredient(id,ingredient_scan, urlPhoto));
+                    }else{
+                        MainActivity.ingredients.get(i-1).incrementQuantity();
                     }
 
 
