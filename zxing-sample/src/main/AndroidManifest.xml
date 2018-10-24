@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
 
     <application
         android:allowBackup="true"
@@ -80,6 +82,9 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ManualAddActivity"
             android:parentActivityName=".IngredientsActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".VoiceRecognitionActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 

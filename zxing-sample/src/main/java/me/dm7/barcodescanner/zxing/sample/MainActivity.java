@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void goto_lets_cook(View view){
-        Intent intent = new Intent(this,LetsCookActivity.class);
+        Intent intent = new Intent(this,VoiceRecognitionActivity.class);
         startActivity(intent);
     }
 
