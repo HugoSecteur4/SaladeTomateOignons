@@ -47,7 +47,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
         etapes.add(e2);
         etapes.add(e3);
 
-        this.recette = new Recette(etapes, "nom recette", "difficulté 3 etoiles", 50, 60, "url");
+        this.recette = new Recette(etapes, "nom recette", 3, 50, 60, "url");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recette_maker);
