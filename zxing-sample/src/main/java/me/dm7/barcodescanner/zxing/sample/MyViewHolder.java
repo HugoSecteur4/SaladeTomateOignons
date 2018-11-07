@@ -16,6 +16,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
     private ImageButton button;
     private TextView quantityView;
     private ImageButton addButton;
+    private ImageButton removeButton;
 
     //itemView est la vue correspondante à 1 cellule
     public MyViewHolder(View itemView) {
@@ -28,6 +29,8 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
         button = (ImageButton) itemView.findViewById(R.id.deleteButton);
         quantityView = (TextView) itemView.findViewById(R.id.quantity);
         addButton = (ImageButton) itemView.findViewById(R.id.addButton);
+        removeButton = (ImageButton) itemView.findViewById(R.id.removeButton);
+
     }
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
@@ -46,6 +49,16 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
             @Override
             public void onClick(View view) {
                 myObject.incrementQuantity();
+                adapter.notifyDataSetChanged();
+            }
+        });
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(myObject.getQuantity()==1)
+                    MainActivity.ingredients.remove(myObject);
+                else
+                    myObject.decrementQuantity();
                 adapter.notifyDataSetChanged();
             }
         });
