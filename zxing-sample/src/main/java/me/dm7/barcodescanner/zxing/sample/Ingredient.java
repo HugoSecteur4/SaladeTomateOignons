@@ -51,4 +51,8 @@ public class Ingredient {
     public long getId() {
         return id;
     }
+
+    public void decrementQuantity() {
+        this.quantity--;
+    }
 }
