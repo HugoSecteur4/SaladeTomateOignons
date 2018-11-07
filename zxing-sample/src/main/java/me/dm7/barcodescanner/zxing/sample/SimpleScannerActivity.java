@@ -1,6 +1,5 @@
 package me.dm7.barcodescanner.zxing.sample;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -101,9 +100,9 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                    Log.println(Log.ASSERT,"tag", "debut scan");
-                    String url = "https://fr.openfoodfacts.org/api/v0/produit/" + rawResult.getText() + ".json";
-                    Log.println(Log.ASSERT, "tag", url);
+                Log.println(Log.ASSERT,"tag", "debut scan");
+                String url = "https://fr.openfoodfacts.org/api/v0/produit/" + rawResult.getText() + ".json";
+                Log.println(Log.ASSERT, "tag", url);
 
                 try {
                     JSONObject jsonObject = getJSONObjectFromURL(url);
@@ -113,20 +112,18 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
                     //MainActivity.variable = "Traisor";
                     final String ingredient_scan = ((JSONObject) jsonObject.get("product")).getString("product_name");
                     final String urlPhoto = ((JSONObject) jsonObject.get("product")).getString("image_small_url");
-                    final long id=Long.getLong(rawResult.getText());
-                    //Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                    //vibrator.vibrate(250);
+                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
+                    vibrator.vibrate(250);
+
                     boolean inside = false;
-                    int i;
-                    for(i=0;!inside && i<MainActivity.ingredients.size();i++){
-                        if(MainActivity.ingredients.get(i).getId()== id ){
+                    for(int i=0;!inside && i<MainActivity.ingredients.size();i++){
+                        if(MainActivity.ingredients.get(i).getNom().equals(ingredient_scan) ){
                             inside=true;
                         }
                     }
                     if(!inside){
-                        MainActivity.ingredients.add(new Ingredient(id,ingredient_scan, urlPhoto));
-                    }else{
-                        MainActivity.ingredients.get(i-1).incrementQuantity();
+
+                        MainActivity.ingredients.add(new Ingredient(ingredient_scan, urlPhoto));
                     }
 
 
@@ -172,7 +169,7 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
 
             }
         });
-       // Toast.makeText(this, "Conttttents = ", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "Conttttents = ", Toast.LENGTH_SHORT).show();
 
         // Note:
         // * Wait 2 seconds to resume the preview.

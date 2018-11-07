@@ -14,6 +14,12 @@ public class Ingredient {
         this.id = id;
     }
 
+    public Ingredient(String nom, String image) {
+        this.nom = nom;
+        this.image = image;
+        this.quantity = 1;
+    }
+
     public Ingredient(String nom) {
         this.nom = nom;
     }
