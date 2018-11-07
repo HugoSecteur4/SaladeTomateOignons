@@ -51,6 +51,7 @@ public class ManualAddActivity extends AppCompatActivity {
                               JSONArray products = jsonObject.getJSONArray("products");
                               for (int i = 0; i < products.length(); i++) {
                                   JSONObject product = (JSONObject) products.get(i);
+                                  Log.println(Log.ASSERT,"id"+i,Long.toString(product.getLong("id")));
                                   temp.add(new Ingredient(product.getLong("id"),product.getString("product_name"), product.getString("image_small_url")));
                               }
 

@@ -96,7 +96,6 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
 
     @Override
     public void handleResult(final Result rawResult) {
-
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -116,15 +115,18 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZXingS
                     vibrator.vibrate(250);
 
                     boolean inside = false;
-                    for(int i=0;!inside && i<MainActivity.ingredients.size();i++){
-                        if(MainActivity.ingredients.get(i).getNom().equals(ingredient_scan) ){
+                    int i;
+                    long id = Long.parseLong(rawResult.getText());
+                    for(i=0;!inside && i<MainActivity.ingredients.size();i++){
+                        if(MainActivity.ingredients.get(i).getId() == id ){
                             inside=true;
                         }
                     }
-                    if(!inside){
+                    if(inside)
+                        MainActivity.ingredients.get(i-1).incrementQuantity();
+                    else
+                        MainActivity.ingredients.add(new Ingredient(id,ingredient_scan, urlPhoto));
 
-                        MainActivity.ingredients.add(new Ingredient(ingredient_scan, urlPhoto));
-                    }
 
 
                     //intent.putExtra("ingredients", ingredient.getNom());
