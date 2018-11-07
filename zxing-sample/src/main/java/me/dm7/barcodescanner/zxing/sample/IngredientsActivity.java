@@ -2,6 +2,7 @@ package me.dm7.barcodescanner.zxing.sample;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.Vector;
 
 public class IngredientsActivity extends AppCompatActivity {
@@ -46,6 +48,16 @@ public class IngredientsActivity extends AppCompatActivity {
     }
 
     public void goto_manual_add(View view){
+        TextToSpeech mTts;
+        mTts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+            }
+        });
+        mTts.setLanguage(Locale.UK);
+        String myText1 = "Did you sleep well?";
+        String myText2 = "I hope so, because it's time to wake up.";
+        mTts.speak(myText1, TextToSpeech.QUEUE_FLUSH, null);
         Intent intent = new Intent(this,ManualAddActivity.class);
         startActivity(intent);
     }
