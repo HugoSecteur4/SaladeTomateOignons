@@ -7,4 +7,26 @@
     android:background="@drawable/background_teinte"
     tools:context=".LetsCookActivity">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="173dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Les recettes"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="23dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/liste"
+        android:layout_width="395dp"
+        android:layout_height="641dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 </android.support.constraint.ConstraintLayout>

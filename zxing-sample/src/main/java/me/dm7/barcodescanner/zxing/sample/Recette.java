@@ -11,11 +11,11 @@ public class Recette {
     private Etape etapeCourante;
     private int indexCourant;
     private String nom;
-    private String difficulte;
+    private int difficulte;
     private int duree;
     private int temps_cui;
 
-    public Recette(ArrayList<Etape> etapes, String nom, String difficulte, int duree, int temps_cui, String URLphoto){
+    public Recette(ArrayList<Etape> etapes, String nom, int difficulte, int duree, int temps_cui, String URLphoto){
         this.etapes=etapes;
         this.nom=nom;
         this.difficulte=difficulte;
@@ -44,11 +44,11 @@ public class Recette {
         this.nom = nom;
     }
 
-    public String getDifficulte() {
+    public int getDifficulte() {
         return difficulte;
     }
 
-    public void setDifficulte(String difficulte) {
+    public void setDifficulte(int difficulte) {
         this.difficulte = difficulte;
     }
 
@@ -97,4 +97,7 @@ public class Recette {
         this.etapes.add(etape);
     }
 
+    public String getImage() {
+        return URLphoto;
+    }
 }
