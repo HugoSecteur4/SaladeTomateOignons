@@ -7,10 +7,10 @@ public class Etape implements Serializable {
 
 
     private String titre;
-    private String URLphoto;
+    private int URLphoto;
     private String descriptif;
 
-    public Etape (String titre, String descriptif, String URLphoto){
+    public Etape (String titre, String descriptif, int URLphoto){
         this.titre = titre;
         this.descriptif = descriptif;
         this.URLphoto = URLphoto;
@@ -33,11 +33,11 @@ public class Etape implements Serializable {
         this.titre = titre;
     }
 
-    public String getURLphoto() {
+    public int getURLphoto() {
         return URLphoto;
     }
 
-    public void setURLphoto(String URLphoto) {
+    public void setURLphoto(int URLphoto) {
         this.URLphoto = URLphoto;
     }
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -38,6 +39,21 @@ public class LetsCookActivity extends AppCompatActivity {
         etapes.add(etape7);
         Recette RizAuLait = new Recette(etapes, "Riz au lait", 1, 65, 60, "https://image.afcdn.com/recipe/20171124/75539_w600cxt0cyt0cxb5520cyb3773.jpg");
         recettes.add(RizAuLait);
+
+        ArrayList<Etape> recetteEau = new ArrayList<Etape>();
+        Etape etape1_eau = new Etape("Etape 1", "Prenez le verre 2 dans la main gauche.", R.drawable.etape1);
+        Etape etape2_eau = new Etape("Etape 2", "Prenez la bouteille d'eau dans la main droite.", R.drawable.etape2);
+        Etape etape3_eau = new Etape("Etape 3", "Remplir le verre 2 jusqu'au trait.", R.drawable.etape3);
+        Etape etape4_eau = new Etape("Etape 4", "Répétez les opérations suivantes avec le verre 3.", R.drawable.etape4);
+        Etape etape5_eau = new Etape("Etape 5", "Remplir le verre 1 à l'aide du verre 2 puis du verre 3. Servir bien frais !", R.drawable.etape5);
+        recetteEau.add(etape1_eau);
+        recetteEau.add(etape2_eau);
+        recetteEau.add(etape3_eau);
+        recetteEau.add(etape4_eau);
+        recetteEau.add(etape5_eau);
+        Recette EauDesAlpes = new Recette(recetteEau, "Cocktail d'eau des Alpes", 1, 2, 0, "https://image.afcdn.com/recipe/20171124/75539_w600cxt0cyt0cxb5520cyb3773.jpg");
+        recettes.add(EauDesAlpes);
+
 
         recyclerView = (RecyclerView) findViewById(R.id.liste);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
