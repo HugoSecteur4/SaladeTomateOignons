@@ -22,11 +22,11 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/liste"
-        android:layout_width="395dp"
-        android:layout_height="641dp"
-        android:layout_marginTop="52dp"
+        android:layout_width="match_parent"
+        android:layout_height="609dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"></android.support.v7.widget.RecyclerView>
 
     <Button
         android:id="@+id/button2"

@@ -1,6 +1,8 @@
 package me.dm7.barcodescanner.zxing.sample;
 
-public class Etape {
+import java.io.Serializable;
+
+public class Etape implements Serializable {
 
 
 

@@ -16,6 +16,7 @@ public class MyViewHolderRecette extends RecyclerView.ViewHolder{
     private TextView textViewView;
     private ImageView imageView;
     private Button button;
+    private TextView dureeView;
 
     //itemView est la vue correspondante à 1 cellule
     public MyViewHolderRecette(View itemView) {
@@ -26,17 +27,20 @@ public class MyViewHolderRecette extends RecyclerView.ViewHolder{
         textViewView = (TextView) itemView.findViewById(R.id.textRecipe);
         imageView = (ImageView) itemView.findViewById(R.id.imageRecipe);
         button = (Button) itemView.findViewById(R.id.buttonRecipe);
+        dureeView = (TextView) itemView.findViewById(R.id.duree);
     }
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
     public void bind(final Recette myObject, final MyAdapterRecette adapter){
         textViewView.setText(myObject.getNom());
+        dureeView.setText(Integer.toString(myObject.getDuree())+" min");
         Picasso.get().load(myObject.getImage()).fit().centerInside().into(imageView);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),VoiceRecognitionActivity.class);
+                intent.putExtra("recette",myObject);
                 view.getContext().startActivity(intent);
                 adapter.notifyDataSetChanged();
             }

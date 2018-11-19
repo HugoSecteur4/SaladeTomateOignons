@@ -63,11 +63,6 @@
             android:name=".ScalingScannerActivity"
             android:label="@string/scaling_scanner_activity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".MesIngredients" />
-        <activity
-            android:name=".ListeIngredients"
-            android:parentActivityName=".SimpleScannerActivity"
-            android:theme="@style/AppTheme" />
         <activity
             android:name=".IngredientsActivity"
             android:parentActivityName=".MainActivity"

@@ -1,8 +1,9 @@
 package me.dm7.barcodescanner.zxing.sample;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Recette {
+public class Recette implements Serializable {
 
     private ArrayList<Etape> etapes;
     private String URLphoto;
@@ -99,5 +100,15 @@ public class Recette {
 
     public String getImage() {
         return URLphoto;
+    }
+
+    public void nextEtape(){
+        if(indexCourant < etapes.size()-1)
+            etapeCourante = etapes.get(++indexCourant);
+    }
+
+    public void previousEtape(){
+        if(indexCourant >0)
+            etapeCourante = etapes.get(--indexCourant);
     }
 }

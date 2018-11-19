@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,7 +29,6 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
 
     private static final int REQUEST_RECORD_PERMISSION = 100;
     private TextView returnedText;
-    private int etape_cour = 0;
     private Recette recette;
     private ProgressBar progressBar;
     private SpeechRecognizer speech = null;
@@ -38,16 +38,9 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ArrayList<Etape> etapes = new ArrayList<Etape>();
-        Etape e1 = new Etape("etape 1", "description numéro 1", "url");
-        Etape e2 = new Etape("etape 2", "description numéro 2", "url");
-        Etape e3 = new Etape("etape 3", "description numéro 3", "url");
 
-        etapes.add(e1);
-        etapes.add(e2);
-        etapes.add(e3);
-
-        this.recette = new Recette(etapes, "nom recette", 3, 50, 60, "url");
+        Intent intent = getIntent();
+        this.recette = (Recette) intent.getSerializableExtra("recette");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recette_maker);
@@ -73,8 +66,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
                                     new String[]{Manifest.permission.RECORD_AUDIO},
                                     REQUEST_RECORD_PERMISSION);
 
-                    returnedText.setText(etapes.get(this.etape_cour).getDescriptif());
-                    this.etape_cour++;
+        returnedText.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size())+":\n"+this.recette.getEtapeCourante().getDescriptif());
 
     }
 
@@ -172,70 +164,133 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
             text += result + "\n";
             Log.println(Log.ASSERT,"tag",text);
         }
-        if (text.contains("étape") || text.contains("etape") || text.contains("suivante")) {
+        if (text.contains("étape")&&text.contains("suivante") || text.contains("etape")&&text.contains("suivante")) {
             //returnedText.setText("REUSSI");
-            if (this.etape_cour < this.recette.getEtapes().size()) {
-                returnedText.setText(this.recette.getEtapes().get(this.etape_cour).getDescriptif());
-                mTts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status == TextToSpeech.SUCCESS) {
-                            int ttsLang = mTts.setLanguage(Locale.FRANCE);
+            nextStep(null);
 
-                            if (ttsLang == TextToSpeech.LANG_MISSING_DATA
-                                    || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
-                                Log.println(Log.ASSERT,"TTS", "The Language is not supported!");
-                            } else {
-                                Log.println(Log.ASSERT,"TTS", "Language Supported." + new String(" " + ttsLang));
-                                Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
-                                String myText1 = recette.getEtapes().get(etape_cour).getDescriptif();
-                                String myText2 = "I hope so, because it's time to wake up.";
-                                mTts.speak(myText1, TextToSpeech.QUEUE_FLUSH, null);
-                                etape_cour++;
-                            }
-                            Log.println(Log.ASSERT,"TTS", "Initialization success.");
-                        } else {
-                            Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-
-
-
-               // Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
-
-               // mTts.speak(myText2, TextToSpeech.QUEUE_ADD, null);
-            } else {
-                this.returnedText.setText("RECETTE TERMINEE");
-                mTts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status == TextToSpeech.SUCCESS) {
-                            int ttsLang = mTts.setLanguage(Locale.FRANCE);
-
-                            if (ttsLang == TextToSpeech.LANG_MISSING_DATA
-                                    || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
-                                Log.println(Log.ASSERT,"TTS", "The Language is not supported!");
-                            } else {
-                                Log.println(Log.ASSERT,"TTS", "Language Supported." + new String(" " + ttsLang));
-                                Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
-                                String myText1 = "Vous avez terminé la recette !";
-                                String myText2 = "I hope so, because it's time to wake up.";
-                                mTts.speak(myText1, TextToSpeech.QUEUE_FLUSH, null);
-                            }
-                            Log.println(Log.ASSERT,"TTS", "Initialization success.");
-                        } else {
-                            Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-
-        } else {
+        } else if(text.contains("étape")&&text.contains("précédente") || text.contains("etape")&&text.contains("précédente") || text.contains("étape")&&text.contains("precedente")){
+            previousStep(null);
            // returnedText.setText(text);
 
         }
+    }
+
+    public void nextStep(View view){
+        if (this.recette.getIndexCourant() < this.recette.getEtapes().size()-1) {
+            recette.nextEtape();
+            returnedText.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size())+":\n"+this.recette.getEtapeCourante().getDescriptif());
+            mTts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        int ttsLang = mTts.setLanguage(Locale.FRANCE);
+
+                        if (ttsLang == TextToSpeech.LANG_MISSING_DATA
+                                || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
+                            Log.println(Log.ASSERT,"TTS", "The Language is not supported!");
+                        } else {
+                            Log.println(Log.ASSERT,"TTS", "Language Supported." + new String(" " + ttsLang));
+                            Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
+                            String myText1 = recette.getEtapeCourante().getDescriptif();
+                            String myText2 = "I hope so, because it's time to wake up.";
+                            mTts.speak(myText1, TextToSpeech.QUEUE_FLUSH, null);
+                        }
+                        Log.println(Log.ASSERT,"TTS", "Initialization success.");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
+
+
+            // Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
+
+            // mTts.speak(myText2, TextToSpeech.QUEUE_ADD, null);
+        } else {
+            returnedText.setText("RECETTE TERMINEE");
+            Button next = (Button) view.findViewById(R.id.nextStep);
+            next.setText("Retour");
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(),LetsCookActivity.class);
+                    startActivity(intent);
+                }
+            });
+            mTts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        int ttsLang = mTts.setLanguage(Locale.FRANCE);
+
+                        if (ttsLang == TextToSpeech.LANG_MISSING_DATA
+                                || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
+                            Log.println(Log.ASSERT,"TTS", "The Language is not supported!");
+                        } else {
+                            Log.println(Log.ASSERT,"TTS", "Language Supported." + new String(" " + ttsLang));
+                            Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
+                            String myText1 = "Vous avez terminé la recette !";
+                            String myText2 = "I hope so, because it's time to wake up.";
+                            mTts.speak(myText1, TextToSpeech.QUEUE_FLUSH, null);
+                        }
+                        Log.println(Log.ASSERT,"TTS", "Initialization success.");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    public void previousStep(View view){
+        if (this.recette.getIndexCourant() > 0) {
+            if(returnedText.getText().equals("RECETTE TERMINEE")){
+                Button next = (Button) this.findViewById(R.id.nextStep);
+                next.setText("Etape suivante");
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        nextStep(view);
+                    }
+                });
+            }else{
+                recette.previousEtape();
+            }
+            returnedText.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size())+":\n"+this.recette.getEtapeCourante().getDescriptif());
+            mTts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        int ttsLang = mTts.setLanguage(Locale.FRANCE);
+
+                        if (ttsLang == TextToSpeech.LANG_MISSING_DATA
+                                || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
+                            Log.println(Log.ASSERT,"TTS", "The Language is not supported!");
+                        } else {
+                            Log.println(Log.ASSERT,"TTS", "Language Supported." + new String(" " + ttsLang));
+                            Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
+                            String myText1 = recette.getEtapeCourante().getDescriptif();
+                            String myText2 = "I hope so, because it's time to wake up.";
+                            mTts.speak(myText1, TextToSpeech.QUEUE_FLUSH, null);
+                        }
+                        Log.println(Log.ASSERT,"TTS", "Initialization success.");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
+
+
+            // Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
+
+            // mTts.speak(myText2, TextToSpeech.QUEUE_ADD, null);
+        }
+
+
     }
 
     @Override
