@@ -49,6 +49,39 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
 
 
         progressBar.setVisibility(View.INVISIBLE);
+
+        if (this.recette.getIndexCourant() < this.recette.getEtapes().size()-1) {
+            //recette.nextEtape();
+            //returnedText.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size())+":\n"+this.recette.getEtapeCourante().getDescriptif());
+            mTts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        int ttsLang = mTts.setLanguage(Locale.FRANCE);
+
+                        if (ttsLang == TextToSpeech.LANG_MISSING_DATA
+                                || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
+                            Log.println(Log.ASSERT,"TTS", "The Language is not supported!");
+                        } else {
+                            Log.println(Log.ASSERT,"TTS", "Language Supported." + new String(" " + ttsLang));
+                            Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
+                            String myText1 = recette.getEtapeCourante().getDescriptif();
+                            String myText2 = "I hope so, because it's time to wake up.";
+                            mTts.speak(myText1, TextToSpeech.QUEUE_FLUSH, null);
+                            mTts.playSilentUtterance(500, TextToSpeech.QUEUE_ADD, null);
+                            mTts.speak("Vous pouvez dire étape suivante ou cliquer sur le bouton étape suivante pour passer à la prochaine étape", TextToSpeech.QUEUE_ADD, null);
+                            while (mTts.isSpeaking()) {
+                                //on attend lol
+                            }
+
+                        }
+                        Log.println(Log.ASSERT,"TTS", "Initialization success.");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
         speech = SpeechRecognizer.createSpeechRecognizer(this);
         Log.i(LOG_TAG, "isRecognitionAvailable: " + SpeechRecognizer.isRecognitionAvailable(this));
         speech.setRecognitionListener(this);
