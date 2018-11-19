@@ -1,6 +1,7 @@
 package me.dm7.barcodescanner.zxing.sample;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,11 +16,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -28,7 +32,9 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
         RecognitionListener {
 
     private static final int REQUEST_RECORD_PERMISSION = 100;
+    private TextView titreEtape;
     private TextView returnedText;
+    private ImageView imageEtape;
     private Recette recette;
     private ProgressBar progressBar;
     private SpeechRecognizer speech = null;
@@ -45,6 +51,8 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recette_maker);
         returnedText = (TextView) findViewById(R.id.textView1);
+        titreEtape = (TextView) findViewById(R.id.numero_etape);
+        imageEtape = (ImageView) findViewById(R.id.image_etape);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
 
 
@@ -63,16 +71,38 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
                                 || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
                             Log.println(Log.ASSERT,"TTS", "The Language is not supported!");
                         } else {
-                            Log.println(Log.ASSERT,"TTS", "Language Supported." + new String(" " + ttsLang));
-                            Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
-                            String myText1 = recette.getEtapeCourante().getDescriptif();
-                            String myText2 = "I hope so, because it's time to wake up.";
-                            mTts.speak(myText1, TextToSpeech.QUEUE_FLUSH, null);
-                            mTts.playSilentUtterance(500, TextToSpeech.QUEUE_ADD, null);
-                            mTts.speak("Vous pouvez dire étape suivante ou cliquer sur le bouton étape suivante pour passer à la prochaine étape", TextToSpeech.QUEUE_ADD, null);
-                            while (mTts.isSpeaking()) {
-                                //on attend lol
-                            }
+
+                                                  //Log.println(Log.ASSERT,"TTS", "Language Supported." + new String(" " + ttsLang));
+                                                  Log.println(Log.ASSERT, "taglog", new String("" + (mTts.isLanguageAvailable(Locale.US))) + " " + Locale.getAvailableLocales().length);
+                                                  String myText1 = recette.getEtapeCourante().getDescriptif();
+                                                  String myText2 = "I hope so, because it's time to wake up.";
+                                                  mTts.speak("Vous pouvez dire étape suivante ou cliquer sur le bouton étape suivante pour passer à la prochaine étape.", TextToSpeech.QUEUE_FLUSH, null);
+
+                                                  mTts.playSilentUtterance(600, TextToSpeech.QUEUE_ADD, null);
+                                                  mTts.speak("Pour commencer, ", TextToSpeech.QUEUE_ADD, null);
+                                                  mTts.speak(myText1, TextToSpeech.QUEUE_ADD, null);
+                                                  while(mTts.isSpeaking()) {
+
+                                                  }
+                                                  speech = SpeechRecognizer.createSpeechRecognizer(VoiceRecognitionActivity.this);
+                                                  Log.i(LOG_TAG, "isRecognitionAvailable: " + SpeechRecognizer.isRecognitionAvailable(VoiceRecognitionActivity.this));
+                                                  speech.setRecognitionListener(VoiceRecognitionActivity.this);
+
+                                                  recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                                                  recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
+                                                          "en");
+                                                  recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                                                          RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                                                  recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+
+                                                  progressBar.setIndeterminate(true);
+                                                  ActivityCompat.requestPermissions
+                                                          (VoiceRecognitionActivity.this,
+                                                                  new String[]{Manifest.permission.RECORD_AUDIO},
+                                                                  REQUEST_RECORD_PERMISSION);
+
+
+
 
                         }
                         Log.println(Log.ASSERT,"TTS", "Initialization success.");
@@ -82,24 +112,12 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
                 }
             });
         }
-        speech = SpeechRecognizer.createSpeechRecognizer(this);
-        Log.i(LOG_TAG, "isRecognitionAvailable: " + SpeechRecognizer.isRecognitionAvailable(this));
-        speech.setRecognitionListener(this);
-        recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
-                "en");
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+
 
                     //progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setIndeterminate(true);
-                    ActivityCompat.requestPermissions
-                            (VoiceRecognitionActivity.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                    REQUEST_RECORD_PERMISSION);
-
-        returnedText.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size())+":\n"+this.recette.getEtapeCourante().getDescriptif());
+        titreEtape.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size() )+ ":");
+        returnedText.setText(this.recette.getEtapeCourante().getDescriptif());
+        imageEtape.setImageResource(this.recette.getEtapeCourante().getURLphoto());
 
     }
 
@@ -211,7 +229,9 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
     public void nextStep(View view){
         if (this.recette.getIndexCourant() < this.recette.getEtapes().size()-1) {
             recette.nextEtape();
-            returnedText.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size())+":\n"+this.recette.getEtapeCourante().getDescriptif());
+            returnedText.setText(this.recette.getEtapeCourante().getDescriptif());
+            titreEtape.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size() )+ ":");
+            imageEtape.setImageResource(this.recette.getEtapeCourante().getURLphoto());
             mTts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
                 @Override
                 public void onInit(int status) {
@@ -243,12 +263,14 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
             // mTts.speak(myText2, TextToSpeech.QUEUE_ADD, null);
         } else {
             returnedText.setText("RECETTE TERMINEE");
+            imageEtape.setImageResource(0);
             Button next = (Button) view.findViewById(R.id.nextStep);
             next.setText("Retour");
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(),LetsCookActivity.class);
+                    finish();
+                    Intent intent = new Intent( VoiceRecognitionActivity.this,LetsCookActivity.class);
                     startActivity(intent);
                 }
             });
@@ -291,7 +313,9 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
             }else{
                 recette.previousEtape();
             }
-            returnedText.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size())+":\n"+this.recette.getEtapeCourante().getDescriptif());
+            returnedText.setText(this.recette.getEtapeCourante().getDescriptif());
+            titreEtape.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size() )+ ":");
+            imageEtape.setImageResource(this.recette.getEtapeCourante().getURLphoto());
             mTts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
                 @Override
                 public void onInit(int status) {

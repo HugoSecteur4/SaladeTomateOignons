@@ -38,7 +38,7 @@ public class LetsCookActivity extends AppCompatActivity {
         etapes.add(etape6);
         etapes.add(etape7);
         Recette RizAuLait = new Recette(etapes, "Riz au lait", 1, 65, 60, "https://image.afcdn.com/recipe/20171124/75539_w600cxt0cyt0cxb5520cyb3773.jpg");
-        recettes.add(RizAuLait);
+
 
         ArrayList<Etape> recetteEau = new ArrayList<Etape>();
         Etape etape1_eau = new Etape("Etape 1", "Prenez le verre 2 dans la main gauche.", R.drawable.etape1);
@@ -51,8 +51,9 @@ public class LetsCookActivity extends AppCompatActivity {
         recetteEau.add(etape3_eau);
         recetteEau.add(etape4_eau);
         recetteEau.add(etape5_eau);
-        Recette EauDesAlpes = new Recette(recetteEau, "Cocktail d'eau des Alpes", 1, 2, 0, "https://image.afcdn.com/recipe/20171124/75539_w600cxt0cyt0cxb5520cyb3773.jpg");
+        Recette EauDesAlpes = new Recette(recetteEau, "Cocktail Aquatique", 1, 5, 0, "http://img.over-blog-kiwi.com/1/49/01/89/20160621/ob_38cde5_eaurenverse.jpg");
         recettes.add(EauDesAlpes);
+        recettes.add(RizAuLait);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.liste);
