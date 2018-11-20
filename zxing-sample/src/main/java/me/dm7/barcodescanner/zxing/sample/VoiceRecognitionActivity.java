@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -57,6 +58,9 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
 
 
         progressBar.setVisibility(View.INVISIBLE);
+        titreEtape.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size() )+ ":");
+        returnedText.setText(this.recette.getEtapeCourante().getDescriptif());
+        imageEtape.setImageResource(this.recette.getEtapeCourante().getURLphoto());
 
         if (this.recette.getIndexCourant() < this.recette.getEtapes().size()-1) {
             //recette.nextEtape();
@@ -81,9 +85,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
                                                   mTts.playSilentUtterance(600, TextToSpeech.QUEUE_ADD, null);
                                                   mTts.speak("Pour commencer, ", TextToSpeech.QUEUE_ADD, null);
                                                   mTts.speak(myText1, TextToSpeech.QUEUE_ADD, null);
-                                                  while(mTts.isSpeaking()) {
 
-                                                  }
                                                   speech = SpeechRecognizer.createSpeechRecognizer(VoiceRecognitionActivity.this);
                                                   Log.i(LOG_TAG, "isRecognitionAvailable: " + SpeechRecognizer.isRecognitionAvailable(VoiceRecognitionActivity.this));
                                                   speech.setRecognitionListener(VoiceRecognitionActivity.this);
@@ -115,9 +117,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
 
 
                     //progressBar.setVisibility(View.VISIBLE);
-        titreEtape.setText("Etape "+Integer.toString(this.recette.getIndexCourant()+1)+"/"+Integer.toString(this.recette.getEtapes().size() )+ ":");
-        returnedText.setText(this.recette.getEtapeCourante().getDescriptif());
-        imageEtape.setImageResource(this.recette.getEtapeCourante().getURLphoto());
+
 
     }
 
@@ -127,7 +127,17 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
         switch (requestCode) {
             case REQUEST_RECORD_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    speech.startListening(recognizerIntent);
+                    new CountDownTimer(8000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+                            //do nothing, just let it tick
+                        }
+
+                        public void onFinish() {
+                            speech.startListening(recognizerIntent);
+                        }
+                    }.start();
+
                 } else {
 
                 }
