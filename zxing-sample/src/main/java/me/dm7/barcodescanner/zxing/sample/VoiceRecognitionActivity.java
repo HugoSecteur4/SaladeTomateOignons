@@ -127,16 +127,21 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
         switch (requestCode) {
             case REQUEST_RECORD_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    new CountDownTimer(8000, 1000) {
+                    if (this.recette.getIndexCourant() == 0) {
+                        new CountDownTimer(8000, 1000) {
 
-                        public void onTick(long millisUntilFinished) {
-                            //do nothing, just let it tick
-                        }
+                            public void onTick(long millisUntilFinished) {
+                                //do nothing, just let it tick
+                            }
 
-                        public void onFinish() {
-                            speech.startListening(recognizerIntent);
-                        }
-                    }.start();
+                            public void onFinish() {
+                                speech.startListening(recognizerIntent);
+                            }
+                        }.start();
+                    } else {
+                        speech.startListening(recognizerIntent);
+                    }
+
 
                 } else {
 
