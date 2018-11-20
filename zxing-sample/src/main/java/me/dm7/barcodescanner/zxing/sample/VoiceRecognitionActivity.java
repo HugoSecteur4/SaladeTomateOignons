@@ -187,10 +187,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
         Log.i(LOG_TAG, "onEndOfSpeech");
         //progressBar.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
-        ActivityCompat.requestPermissions
-                (VoiceRecognitionActivity.this,
-                        new String[]{Manifest.permission.RECORD_AUDIO},
-                        REQUEST_RECORD_PERMISSION);
+        speech.startListening(recognizerIntent);
         //progressBar.setIndeterminate(true);
         //toggleButton.setChecked(false);
     }
