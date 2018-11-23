@@ -276,7 +276,7 @@ public class VoiceRecognitionActivity extends AppCompatActivity implements
         } else {
             returnedText.setText("RECETTE TERMINEE");
             imageEtape.setImageResource(0);
-            Button next = (Button) view.findViewById(R.id.nextStep);
+            Button next = (Button) findViewById(R.id.nextStep);
             next.setText("Retour");
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
